@@ -1,31 +1,20 @@
 from AvitoParser import AvitoParser
 from AdClass import AdClass
+from AvitoSaver import AvitoSaver
 import requests
 from PIL import Image
 from time import sleep
 
-avitoParser = AvitoParser("Ростов-на-Дону")
+avitoParser = AvitoParser("Москва")
 avitoParser.set_category("Квартиры")
 
-items = avitoParser.get_ads(2)
-for item in items:
-    print(item.images_count)
+items = avitoParser.get_ads(100)
 
-'''
-images_url = [i['value']['images']['main'][j] for i in items for j in i['value']['images']['main']]
-items_id = [i['value']['id'] for i in items]
-print(items)
+aSaver = AvitoSaver()
+aSaver.set_filename("moscow")
+aSaver.set_ads_data(items)
+aSaver.save_to_csv()
+aSaver.save_to_json()
+aSaver.save_images()
 
-for item in items_id:
-    add_info = AvitoParser.get_add_info_by_id(item)
-    print(add_info['images'][0]['640x480'])
-    print(len(add_info['images']))
-
-for i in range(len(images_url)):
-    res = requests.get(images_url[i], stream=True).raw
-    img = Image.open(res)
-    image_name = "img/image_" + str(i) + ".jpg"
-    img.save(image_name, "jpeg")
-    print(image_name + " downloaded")
-    sleep(2)
-'''
+print("Загрузка завершена")

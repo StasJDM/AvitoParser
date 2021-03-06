@@ -13,6 +13,8 @@ warnings.filterwarnings("ignore")
 
 
 class AvitoParser:
+
+    SLEEP_TIMING = 10
     
     REGION_INFO = 'region_info'
     CATEGORIES_INFO = 'categories_info'
@@ -87,22 +89,28 @@ class AvitoParser:
 
         ads = []
         for item in items:
-            item = item['value']
-            adClass = AdClass(item['id'], item['category']['name'], item['title'], item['time'])
-            adClass.set_price(item['price'])
-            adClass.set_geo(item['location'], item['address'], item['coords']['lat'], item['coords']['lng'])
-            images = self.get_ad_info_by_id(adClass.id)['images']
-            images_path = []
-            for image in images:
-                images_path.append(image['640x480'])
-            adClass.add_images(images_path)
-            ads.append(adClass)
+            if (item['type'] == "item"):
+                try:
+                    item = item['value']
+                    adClass = AdClass(item['id'], item['category']['name'], item['title'], item['time'])
+                    adClass.set_price(item['price'])
+                    adClass.set_geo(item['location'], item['address'], item['coords']['lat'], item['coords']['lng'])
+                    images = self.get_ad_info_by_id(adClass.id)['images']
+                    images_path = []
+                    for image in images:
+                        images_path.append(image['640x480'])
+                    adClass.add_images(images_path)
+                    ads.append(adClass)
+                    print("Загружено объявление " + str(item['id']))
+                    sleep(self.SLEEP_TIMING)
+                except Exception:
+                    print("Не удалось загрузить объявление")
 
         return ads
 
 
-    @staticmethod
-    def get_add_json_info_by_id(add_id):
+    @classmethod
+    def get_add_json_info_by_id(cls, add_id):
         json_content = AvitoParser.get_json_by_request(
             f'https://m.avito.ru/api/14/items/{add_id}?key=af0deccbgcgidddjgnvljitntccdduijhdinfgjgfjir'
         )

@@ -18,4 +18,35 @@ class AdClass:
         self.address = address
         self.lat = lat
         self.lng = lng
-    
+
+    def get_list_data(self):
+        list_data = {
+            "id" : self.id,
+            "category" : self.category,
+            "title" : self.title,
+            "time" : self.time,
+            "price" : self.price,
+            "location" : self.location,
+            "address" : self.address,
+            "lat" : self.lat,
+            "lng" : self.lng,
+            "images_count" : self.images_count,
+            "images" : self.images
+        }
+
+        return list_data
+
+    @staticmethod
+    def get_columns():
+        columns = ["id",
+                   "category",
+                   "title",
+                   "time",
+                   "price",
+                   "location",
+                   "address",
+                   "lat",
+                   "lng",
+                   "images_count",
+                   "images"]
+        return columns
