@@ -36,6 +36,12 @@ class AvitoSaver:
             for ad in self.__ads_data:
                 writer.writerow(ad.get_list_data())
 
+    def add_to_csv(self):
+        with open("downloads/" + self.__filename + self.CSV_TYPE, "a", newline="", encoding='utf-8') as file:
+            writer = csv.DictWriter(file, fieldnames=AdClass.get_columns())
+            for ad in self.__ads_data:
+                writer.writerow(ad.get_list_data())
+
     def save_to_json(self):
         with open("downloads/" + self.__filename + self.JSON_TYPE, "w") as file:
             writer = csv.DictWriter(file, fieldnames=AdClass.get_columns())

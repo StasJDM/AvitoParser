@@ -14,7 +14,7 @@ warnings.filterwarnings("ignore")
 
 class AvitoParser:
 
-    SLEEP_TIMING = 10
+    SLEEP_TIMING = 5
     
     REGION_INFO = 'region_info'
     CATEGORIES_INFO = 'categories_info'
@@ -28,6 +28,10 @@ class AvitoParser:
     }
 
     def __init__(self, region):
+        self.__region = region
+        self.__region_id = self.get_region_id_by_name(region)
+
+    def change_region(self, region):
         self.__region = region
         self.__region_id = self.get_region_id_by_name(region)
 
