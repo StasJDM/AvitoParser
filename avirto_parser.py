@@ -15,20 +15,14 @@ all_list = []
 avitoParser = AvitoParser("Москва")
 avitoParser.set_category("Квартиры")
 
-items = avitoParser.get_ads(200)
-all_list = add_to_list(all_list, items)
-print("Загружены объявления для региона Москва")
+items = avitoParser.get_ads(1)
 
-avitoParser.change_region("Киров")
-items = avitoParser.get_ads(200)
-all_list = add_to_list(all_list, items)
-print("Загружены объявления для региона Киров")
-
-
+'''
 aSaver = AvitoSaver()
 aSaver.set_filename("ads")
 aSaver.set_ads_data(all_list)
 aSaver.add_to_csv()
 aSaver.save_images()
+'''
 
 print("Загрузка завершена")
