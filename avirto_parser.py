@@ -12,18 +12,15 @@ all_list = []
 avitoParser = AvitoParser("Москва")
 avitoParser.set_category("Квартиры")
 
-items = avitoParser.get_ads(3)
+items = avitoParser.get_ads(100)
 
-#databaseSaver = DatabaseSaver()
 for i in items:
     DatabaseSaver().insert_ad(i)
 
-'''
 aSaver = AvitoSaver()
 aSaver.set_filename("ads")
 aSaver.set_ads_data(items)
 aSaver.add_to_csv()
 aSaver.save_images()
-'''
 
 print("Загрузка завершена")

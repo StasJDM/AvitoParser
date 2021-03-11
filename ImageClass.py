@@ -1,5 +1,8 @@
 class ImageClass:
 
+    def __init__(self, name):
+        self.name = name
+
     def __init__(self, image_url, ad_id, number):
         self.name = "image_" + str(ad_id) + "_" + str(number) + ".jpg"
         self.url = image_url

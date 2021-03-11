@@ -31,6 +31,25 @@ class DatabaseSaver:
                     self.insert_image(connection, img)
             connection.commit()
 
+    def save_hash(self, img_hash):
+        try:
+            with self.__connection as connection:
+                with connection.cursor() as cursor:
+                    sql = "UPDATE images SET ahash='{0}', dhash='{1}', phash='{2}', whash='{3}', colorhash='{4}', crop_resistant='{5}', is_hashed='1' WHERE name='{6}'"
+                    cursor.execute(sql.format(
+                        img_hash['ahash'],
+                        img_hash['dhash'],
+                        img_hash['phash'],
+                        img_hash['whash'],
+                        img_hash['colorhash'],
+                        img_hash['crop_resistant_hash'],
+                        img_hash['name']))
+                    cursor.close()
+                connection.commit()
+            print("Сохранен хэш для " + img_hash['name'])
+        except Exception:
+            print("Ошибка сохранения хэша")
+
     @classmethod
     def insert_image(cls, connection, img):
         with connection.cursor() as cursor:
@@ -41,3 +60,11 @@ class DatabaseSaver:
                 img.url,
                 img.number))
             cursor.close()
+
+    def get_unhashed_ads(self):
+        with self.__connection as connection:
+            with connection.cursor() as cursor:
+                sql = "SELECT `name` FROM images WHERE is_hashed='0'"
+                cursor.execute(sql)
+                rows = cursor.fetchall()
+                return rows
