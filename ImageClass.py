@@ -1,8 +1,10 @@
 class ImageClass:
 
-    def __init__(self, image_name, ad_id):
-        self.image_name = image_name
+    def __init__(self, image_url, ad_id, number):
+        self.name = "image_" + str(ad_id) + "_" + str(number) + ".jpg"
+        self.url = image_url
         self.ad_id = ad_id
+        self.number = number
 
     def set_hashes(hash_struct):
         self.ahash = hash_struct['ahash']

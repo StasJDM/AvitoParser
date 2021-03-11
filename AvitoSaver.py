@@ -13,12 +13,15 @@ class AvitoSaver:
     CSV_TYPE = ".csv"
     JSON_TYPE = ".json"
 
+    DIR = "downloads/"
+    IMAGE_DIR = "downloads/img/"
+
     __filename = "avito_ads"
     __ads_data = []
 
     def __init__(self):
         try:
-            os.makedirs("downloads/img")
+            os.makedirs(IMAGE_DIR)
         except OSError:
             print ("Создать директорию %s не удалось. Возможно, она была создана раньше" % "downloads/img")
         else:
@@ -31,19 +34,19 @@ class AvitoSaver:
         self.__ads_data = adArray
 
     def save_to_csv(self):
-        with open("downloads/" + self.__filename + self.CSV_TYPE, "w", newline="", encoding='utf-8') as file:
+        with open(DIR + self.__filename + self.CSV_TYPE, "w", newline="", encoding='utf-8') as file:
             writer = csv.DictWriter(file, fieldnames=AdClass.get_columns())
             for ad in self.__ads_data:
                 writer.writerow(ad.get_list_data())
 
     def add_to_csv(self):
-        with open("downloads/" + self.__filename + self.CSV_TYPE, "a", newline="", encoding='utf-8') as file:
+        with open(DIR + self.__filename + self.CSV_TYPE, "a", newline="", encoding='utf-8') as file:
             writer = csv.DictWriter(file, fieldnames=AdClass.get_columns())
             for ad in self.__ads_data:
                 writer.writerow(ad.get_list_data())
 
     def save_to_json(self):
-        with open("downloads/" + self.__filename + self.JSON_TYPE, "w") as file:
+        with open(DIR + self.__filename + self.JSON_TYPE, "w") as file:
             writer = csv.DictWriter(file, fieldnames=AdClass.get_columns())
             ad_list = []
             for ad in self.__ads_data:
@@ -53,11 +56,10 @@ class AvitoSaver:
 
     def save_images(self):
         for ad in self.__ads_data:
-            images_url = ad.images
-            for i in range(len(images_url)):
-                res = requests.get(images_url[i], stream=True).raw
+            for img_cls in ad.images:
+                res = requests.get(img_cls.url, stream=True).raw
                 img = Image.open(res)
-                image_name = "downloads/img/image_" + str(ad.id) + "_" + str(i) + ".jpg"
-                img.save(image_name, "jpeg")
-                print("Загружено изображение: " + image_name)
+                image_path = IMAGE_DIR + img_cls.name
+                img.save(image_path, "jpeg")
+                print("Загружено изображение: " + img_cls.name)
                 sleep(self.SLEEP_TIMING)

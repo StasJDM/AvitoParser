@@ -1,4 +1,5 @@
 from AdClass import AdClass
+from ImageClass import ImageClass
 import requests
 from urllib.request import quote
 from urllib.request import unquote
@@ -100,15 +101,17 @@ class AvitoParser:
                     adClass.set_price(item['price'])
                     adClass.set_geo(item['location'], item['address'], item['coords']['lat'], item['coords']['lng'])
                     images = self.get_ad_info_by_id(adClass.id)['images']
-                    images_path = []
-                    for image in images:
-                        images_path.append(image['640x480'])
-                    adClass.add_images(images_path)
+                    images_class = []
+                    for i in range(len(images)):
+                        img_cls = ImageClass(images[i]['640x480'], adClass.id, i)
+                        images_class.append(img_cls)
+                    adClass.add_images(images_class)
                     ads.append(adClass)
                     print("Загружено объявление " + str(item['id']))
                     sleep(self.SLEEP_TIMING)
-                except Exception:
+                except Exception as e:
                     print("Не удалось загрузить объявление")
+                    print(e)
 
         return ads
 
