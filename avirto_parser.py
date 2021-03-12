@@ -9,18 +9,18 @@ from time import sleep
 
 all_list = []
 
-avitoParser = AvitoParser("Москва")
+avitoParser = AvitoParser("Калининград")
 avitoParser.set_category("Квартиры")
 
 items = avitoParser.get_ads(100)
 
-for i in items:
-    DatabaseSaver().insert_ad(i)
-
 aSaver = AvitoSaver()
-aSaver.set_filename("ads")
-aSaver.set_ads_data(items)
-aSaver.add_to_csv()
-aSaver.save_images()
+
+for item in items:
+    try:
+        DatabaseSaver().insert_ad(item)
+        aSaver.save_image(item.images)
+    except Exception as e:
+        print(e)
 
 print("Загрузка завершена")

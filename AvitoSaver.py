@@ -8,7 +8,7 @@ from AdClass import AdClass
 
 class AvitoSaver:
 
-    SLEEP_TIMING = 5
+    SLEEP_TIMING = 7
 
     CSV_TYPE = ".csv"
     JSON_TYPE = ".json"
@@ -29,6 +29,10 @@ class AvitoSaver:
 
     def set_filename(self, filename):
         self.__filename = filename
+
+    def set_dir(self, directory):
+        self.DIR = directory
+        self.IMAGE_DIR = directory + "img/"
 
     def set_ads_data(self, adArray):
         self.__ads_data = adArray
@@ -63,3 +67,12 @@ class AvitoSaver:
                 img.save(image_path, "jpeg")
                 print("Загружено изображение: " + img_cls.name)
                 sleep(self.SLEEP_TIMING)
+
+    def save_image(self, images):
+        for img_cls in images:
+            res = requests.get(img_cls.url, stream=True).raw
+            img = Image.open(res)
+            image_path = self.IMAGE_DIR + img_cls.name
+            img.save(image_path, "jpeg")
+            print("Загружено изображение: " + img_cls.name)
+            sleep(self.SLEEP_TIMING)

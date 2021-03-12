@@ -15,7 +15,7 @@ warnings.filterwarnings("ignore")
 
 class AvitoParser:
 
-    SLEEP_TIMING = 5
+    SLEEP_TIMING = 7
     
     REGION_INFO = 'region_info'
     CATEGORIES_INFO = 'categories_info'

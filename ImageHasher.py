@@ -46,8 +46,7 @@ class ImageHasher:
         return hash_original.hash_diff(hash_cropped)
 
     @staticmethod
-    def get_hashes(image_name):
-        image = ImageHasher.get_image(image_name)
+    def get_hashes_by_image(image, image_name):
         ahash = str(ImageHasher.get_ahash(image))
         phash = str(ImageHasher.get_phash(image))
         dhash = str(ImageHasher.get_dhash(image))
@@ -65,3 +64,26 @@ class ImageHasher:
             }
         print("Вычеслен хэш для: " + image_name)
         return hashes;
+
+    @staticmethod
+    def get_hashes(image_name):
+        image = ImageHasher.get_image(image_name)
+        return ImageHasher.get_hashes_by_image(image, image_name)
+
+    @staticmethod
+    def get_difference(hashes_x, hashes_y):
+        d_ahash = ImageHasher.get_difference(hashes_x['ahash'], hashes_x['ahash'])
+        d_dhash = ImageHasher.get_difference(hashes_x['dhash'], hashes_x['dhash'])
+        d_phash = ImageHasher.get_difference(hashes_x['phash'], hashes_x['phash'])
+        d_whash = ImageHasher.get_difference(hashes_x['whash'], hashes_x['whash'])
+        d_colorhash = ImageHasher.get_difference(hashes_x['colorhash'], hashes_x['colorhash'])
+        d_crop_resistant_hash = ImageHasher.get_crop_difference(hashes_x['crop_resistant_hash'], hashes_x['crop_resistant_hash'])
+        difference_struct = {
+            "ahash" : d_ahash,
+            "dhash" : d_dhash,
+            "phash" : d_phash,
+            "whash" : d_whash,
+            "colorhash" : d_colorhash,
+            "crop_resistant_hash" : d_crop_resistant_hash
+            }
+        return difference_struct

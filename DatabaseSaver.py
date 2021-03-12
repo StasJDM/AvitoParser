@@ -68,3 +68,11 @@ class DatabaseSaver:
                 cursor.execute(sql)
                 rows = cursor.fetchall()
                 return rows
+
+    def get_hashed_ads(self):
+        with self.__connection as connection:
+            with connection.cursor() as cursor:
+                sql = "SELECT * FROM images WHERE is_hashed='1'"
+                cursor.execute(sql)
+                rows = cursor.fetchall()
+                return rows
