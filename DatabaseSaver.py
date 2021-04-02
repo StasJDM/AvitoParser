@@ -53,7 +53,7 @@ class DatabaseSaver:
     @classmethod
     def insert_image(cls, connection, img):
         with connection.cursor() as cursor:
-            sql = "INSERT INTO images(`name`, `id_publication`, `url`, `number`) VALUES ('{0}', '{1}', '{2}', '{3}')"
+            sql = "INSERT INTO images(`name`, `id_ad`, `url`, `number`) VALUES ('{0}', '{1}', '{2}', '{3}')"
             cursor.execute(sql.format(
                 img.name,
                 img.ad_id,
